@@ -1,6 +1,8 @@
 
-import scrapy
 from .expand_colspan_rowspan import expand_colspan_rowspan
+from scrapy.selector import Selector
+from scrapy.selector.unified import SelectorList
+
 
 def extract(selector):
     """
@@ -12,8 +14,8 @@ def extract(selector):
 
     Returns
     -------
-    list of list
-        Each returned row is a list of str text.
+    list of SelectorList
+        Each returned row is a SelectorList.
     Notes
     -----
     Any cell with ``rowspan`` or ``colspan`` will have its contents copied
@@ -21,10 +23,13 @@ def extract(selector):
     """
 
     # Type checking
-    if not isinstance(selector, scrapy.selector.unified.SelectorList):
+    if not isinstance(selector, SelectorList):
         raise TypeError("Input type must be scrapy.selector.unified.SelectorList")
 
     # extract data
-    rows = selector.xpath('//tr')
-    data = expand_colspan_rowspan(rows)
-    return data
+    rows = selector.xpath('.//tr')
+    extracted = expand_colspan_rowspan(rows)
+
+    # concatenate data
+    tds = [Selector(text=''.join(row)).xpath('//th|//td') for row in extracted]
+    return tds

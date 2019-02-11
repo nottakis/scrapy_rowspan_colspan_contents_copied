@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='scrapy_rowspan_colspan_contents_copied',
-    version='0.1',
+    version='0.5.1',
     description="It detects HTML table's rowspan and colspan and extracts cells with contents copied.",
     url='https://github.com/takitakis/scrapy_rowspan_colspan_contents_copied',
     author='Takeaki Kawai',
@@ -13,7 +13,6 @@ setup(
     packages=[
         "scrapy_rowspan_colspan_contents_copied",
     ],
-    install_requires=["scrapy>=1.5.2"],
     classifiers=[
         'Programming Language :: Python :: 3.6',
     ],
